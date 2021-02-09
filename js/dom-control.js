@@ -1,40 +1,61 @@
 class DomControl {
 
+    allowedParams = [
+        'urlParam', 'paramValue', 'action', 'target'
+    ];
+
     constructor() {
         this.queryString = window.location.search;
         this.urlParams = new URLSearchParams(this.queryString);
-        if (this.queryString) {
-            this.addIndexLink();
-            this.removeExampleLink(1);
+    }
+
+    hideByClass(className) {
+        var classElementArray = document.getElementsByClassName(className);
+        var noElementFound = false;
+        for (let element of classElementArray) {
+            noElementFound = true;
+            element.style.display = 'none';
+        };
+        if(!noElementFound){
+            console.log('No elements found with class : '+className);
         }
     }
 
-    addIndexLink() {
-        var container = document.getElementsByClassName('container-fluid')[0];
-        var indexLink = `<div class="row"><div class="col-6 mx-auto text-center alert alert-info">
-        <a href="index.html">Return index</a></div></div>`;
-        container.insertAdjacentHTML('beforeend', indexLink);
-    }
-    
-    removeExampleLink(index){
-        var elementToRemove = document.getElementById('example'+index);
-        elementToRemove.remove();
-    }
-
-    hideByClass() {
-        if (this.urlParams.has('class')) {
-            document.getElementsByClassName(this.urlParams.get('class'))[0].style.display = 'none';
-        }
-    }
-
-    showUrlParams(){
-        var urlBlock = document.getElementById('urlBlock');
-        var htmlToAdd = '';
-        if(this.queryString){
-            htmlToAdd = '<div class="alert alert-info">'+ this.queryString + '</div>';
+    hydeById(elementId) {
+        var elementToHide = document.getElementById(elementId);
+        if(elementToHide){
+            elementToHide.style.display = 'none';
         }else{
-            htmlToAdd = '<div class="alert alert-info"> No params in URL</div>';
+            console.log('No elements found with ID : '+elementId);
         }
-        urlBlock.replaceWith(htmlToAdd);
+    }
+
+    urlHasParams() {
+        if (this.queryString) {
+            return this.queryString;
+        }
+        return false;
+    }
+
+    urlHasParam(paramName){
+        return this.urlParams.has(paramName);
+    }
+
+    checkParamsIndex(params) {
+        return Object.keys(params).every(r => this.allowedParams.includes(r)) ? true : 'Undefined index in params';
+    }
+
+    urlControl(params) {
+        if (this.checkParamsIndex(params)) {
+            if(this.urlHasParam(params.urlParam)){
+                if (params.action.toUpperCase() === 'HIDE') {
+                    this.hideByClass(params.paramValue);
+                    this.hydeById(params.paramValue);
+                }
+            }else{
+                console.log('Param name not found in URL');
+            }
+
+        }
     }
 }
