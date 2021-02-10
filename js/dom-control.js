@@ -45,12 +45,30 @@ class DomControl {
         return Object.keys(params).every(r => this.allowedParams.includes(r)) ? true : 'Undefined index in params';
     }
 
+    isString(val) {
+        return (typeof val === "string");
+    }
+      
+    isStrArray(val) {
+        return Array.isArray(val) && val.every(this.isString);
+    }      
+
     urlControl(params) {
         if (this.checkParamsIndex(params)) {
-            if(this.urlHasParam(params.urlParam)){
+            if(this.urlHasParam(params.urlParam) && this.urlParams.get(params.urlParam) === params.paramValue){
                 if (params.action.toUpperCase() === 'HIDE') {
-                    this.hideByClass(params.paramValue);
-                    this.hydeById(params.paramValue);
+                    if(typeof(params.target) == "string"){
+                        this.hideByClass(params.target);
+                        this.hydeById(params.target);
+                    }
+                    else if(this.isStrArray(params.target)){
+                        params.target.forEach(param => {
+                            this.hideByClass(param);
+                            this.hydeById(param);
+                        });
+                    }else{
+                        console.log('Error on target param type')
+                    }
                 }
             }else{
                 console.log('Param name not found in URL');
