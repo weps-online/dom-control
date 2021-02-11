@@ -9,14 +9,14 @@ Example usage would be as follow :
 
     <script>
     (function() {
-    		var MyProject = new dom-control    
+    		var MyProject = new DomControl    
       
 
-     MyProject.url-control({
-    		urlParam: 'language',
+     MyProject.urlControl({
+    		  urlParam: 'language',
         paramValue:'french',
         action:'Hide',
-        target:'.english-components'
+        target:'english-components'
       })
     })();
     </script>
