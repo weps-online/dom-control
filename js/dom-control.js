@@ -21,7 +21,7 @@ class DomControl {
         }
     }
 
-    hydeById(elementId) {
+    hideById(elementId) {
         var elementToHide = document.getElementById(elementId);
         if(elementToHide){
             elementToHide.style.display = 'none';
@@ -59,12 +59,12 @@ class DomControl {
                 if (params.action.toUpperCase() === 'HIDE') {
                     if(typeof(params.target) == "string"){
                         this.hideByClass(params.target);
-                        this.hydeById(params.target);
+                        this.hideById(params.target);
                     }
                     else if(this.isStrArray(params.target)){
                         params.target.forEach(param => {
                             this.hideByClass(param);
-                            this.hydeById(param);
+                            this.hideById(param);
                         });
                     }else{
                         console.log('Error on target param type')
