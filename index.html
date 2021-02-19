@@ -9,7 +9,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
@@ -32,16 +32,28 @@
                 </div>
             </div>
         </div>
-        <div class="row french">
-            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH CLASS "french"</div>
+        <div class="row english">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH CLASS "english"</div>
         </div>
-        <div class="row" id="french">
-            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH ID "french"</div>
+        <div class="row" id="english">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH ID "english"</div>
+        </div>
+        <div class="row french" style="display: none;">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 2 WITH CLASS "french"</div>
+        </div>
+        <div class="row" style="display: none;" id="french">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 2 WITH ID "french"</div>
         </div>
         <div class="row">
             <div class="col-6 mx-auto text-center alert alert-info" id='example1'>
-                <a href="index.html?language=french">Example 1 - Same page without Block 1, hidden by JS with urlControl
-                    method, at the URL index.html?language=fr</a>
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example1')">Example 1</button> - Same page without Block 1, hidden by JS with urlControl
+                method, at the URL index.html?language=french
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example2')">Example 2 </button> - Same page with Block 2, show by JS with urlControl
+                method, at the URL index.html?language=french
             </div>
         </div>
     </div>
@@ -60,17 +72,31 @@
     <script src="js/dom-control.js"></script>
     <script src="js/dom-handling.js"></script>
     <script>
+        function goTo(href){
+            window.location.replace(href);
+        }
         var domControl = new DomControl();
         var domHandling = new DomHandling();
-        if (domControl.urlHasParams()) {
-            domHandling.addIndexLink();
-            domHandling.removeExampleLink(1);
+        if(domControl.urlHasParam('example1')){
             domControl.urlControl({
                 urlParam: 'language',
                 paramValue: 'french',
                 action: 'hide',
-                target: ['french', 'salut']
+                target: ['english']
             });
+        }else if(domControl.urlHasParam('example2')){
+            domControl.urlControl({
+                urlParam: 'language',
+                paramValue: 'french',
+                action: 'showGrid',
+                target: ['french']
+            });
+        }
+        if (domControl.urlHasParams()) {
+            domHandling.addIndexLink();
+            domHandling.removeExampleLink(1);
+            domHandling.removeExampleLink(2);
+            
         }
     </script>
 </body>

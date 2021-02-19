@@ -30,6 +30,31 @@ class DomControl {
         }
     }
 
+    showByClass(className, action){
+        var classElementArray = document.getElementsByClassName(className);
+        var noElementFound = false;
+        for (let element of classElementArray) {
+            noElementFound = true;
+            element.style.display = this.getShowMethod(action);
+        };
+        if(!noElementFound){
+            console.log('No elements found with class : '+ className);
+        }
+    }
+
+    showById(elementId, action) {
+        var elementToHide = document.getElementById(elementId);
+        if(elementToHide){
+            elementToHide.style.display = this.getShowMethod(action);
+        }else{
+            console.log('No elements found with ID : '+elementId);
+        }
+    }
+
+    getShowMethod(action){
+        return action.replace('show', '').toLowerCase();
+    }
+
     urlHasParams() {
         if (this.queryString) {
             return this.queryString;
@@ -65,6 +90,19 @@ class DomControl {
                         params.target.forEach(param => {
                             this.hideByClass(param);
                             this.hideById(param);
+                        });
+                    }else{
+                        console.log('Error on target param type')
+                    }
+                }else{
+                    if(typeof(params.target) == "string"){
+                        this.showByClass(params.target, params.action);
+                        this.showById(params.target, params.action);
+                    }
+                    else if(this.isStrArray(params.target)){
+                        params.target.forEach(param => {
+                            this.showByClass(param, params.action);
+                            this.showById(param, params.action);
                         });
                     }else{
                         console.log('Error on target param type')
