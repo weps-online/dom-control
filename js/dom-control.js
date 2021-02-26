@@ -1,7 +1,7 @@
 class DomControl {
 
     allowedParams = [
-        'urlParam', 'paramValue', 'action', 'target'
+        'urlParam', 'paramValue', 'action', 'target', 'cookieParam'
     ];
 
     constructor() {
@@ -112,6 +112,53 @@ class DomControl {
                 console.log('Param name not found in URL');
             }
 
+        }
+    }
+
+    getCookieKey(params){
+        const regex = new RegExp('(.*)' + params.cookieParam + '(=+)','g');
+        return document.cookie.match(regex); 
+    }
+
+    getCookieValueByKey(params){
+        // const regex = new RegExp('(?!;+)(?:' + params.cookieParam + '=)(.*)');
+        const regex = new RegExp('(?:'+params.cookieParam +')=(.*)(;*)');
+        return document.cookie.match(regex)[1].split(';')[0];
+    }
+
+    cookieControl(params){
+        if (this.checkParamsIndex(params)) {
+            if(this.getCookieKey(params) && this.getCookieValueByKey(params) === params.paramValue){
+                if (params.action.toUpperCase() === 'HIDE') {
+                    if(typeof(params.target) == "string"){
+                        this.hideByClass(params.target);
+                        this.hideById(params.target);
+                    }
+                    else if(this.isStrArray(params.target)){
+                        params.target.forEach(param => {
+                            this.hideByClass(param);
+                            this.hideById(param);
+                        });
+                    }else{
+                        console.log('Error on target param type')
+                    }
+                }else{
+                    if(typeof(params.target) == "string"){
+                        this.showByClass(params.target, params.action);
+                        this.showById(params.target, params.action);
+                    }
+                    else if(this.isStrArray(params.target)){
+                        params.target.forEach(param => {
+                            this.showByClass(param, params.action);
+                            this.showById(param, params.action);
+                        });
+                    }else{
+                        console.log('Error on target param type')
+                    }
+                }
+            }else{
+                console.log('Cookie Key "' + params.cookieParam + '" doesn\'t exist !');
+            }
         }
     }
 }
