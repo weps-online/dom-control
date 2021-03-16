@@ -26,6 +26,27 @@ Example usage would be as follow :
       target:'french-components'
       })
       
+     MyProject.dateControl({
+      dateParam: 'date',
+      paramValue:'01/01/2021',
+      action:'showBlock',
+      target:'promotion-block'
+      })
+      
+     MyProject.dateControl({
+      dateParam: 'single period',
+      paramValue: ['01/01/2021','10/01/2021'],
+      action:'showBlock',
+      target:'promotion-block'
+      })
+      
+     MyProject.dateControl({
+      dateParam: 'multiple period',
+      paramValue: [['01/01/2021','10/01/2021'],['01/03/2021','10/03/2021']],
+      action:'showBlock',
+      target:'promotion-block'
+      })
+      
      MyProject.cookieControl({
       cookieParam: 'subscription status',
       paramValue: 'subscribed',
