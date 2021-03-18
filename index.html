@@ -2,21 +2,21 @@
 <html lang="en">
 
 <head>
-    <title>Test plugin</title>
+    <title>Dom Control JS Demo</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 
 <body>
     <div class="container-fluid" id="main-block">
         <div class="row mb-5">
             <div class="col-4 mx-auto text-center">
-                <h1>Example index</h1>
+                <h1>Dom Control JS Sample page</h1>
             </div>
         </div>
         <div class="row mb-2">
@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-12 mx-auto">
                         <button class="btn btn-primary" onclick="domHandling.showUrlParams(domControl.urlHasParams())">
-                            Get URL params
+                            Get URL params on click
                         </button>
                     </div>
                     <div class="col-4 mx-auto mt-2" id="urlBlock">
@@ -32,11 +32,11 @@
                 </div>
             </div>
         </div>
-        <div class="row french">
-            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH CLASS "french"</div>
+        <div class="row english">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH CLASS "english"</div>
         </div>
-        <div class="row" id="french">
-            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH ID "french"</div>
+        <div class="row" id="english">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH ID "english"</div>
         </div>
         <div class="row french" style="display: none;">
             <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 2 WITH CLASS "french"</div>
@@ -157,7 +157,7 @@
                 urlParam: 'language',
                 paramValue: 'french',
                 action: 'hide',
-                target: ['french', 'salut']
+                target: ['english', 'chinese']
             });
         } else if (domControl.urlHasParam('example2')) {
             domControl.urlControl({

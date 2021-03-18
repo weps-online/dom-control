@@ -21,13 +21,38 @@ class DomControl {
         }
     }
 
-    hydeById(elementId) {
+    hideById(elementId) {
         var elementToHide = document.getElementById(elementId);
         if(elementToHide){
             elementToHide.style.display = 'none';
         }else{
             console.log('No elements found with ID : '+elementId);
         }
+    }
+
+    showByClass(className, action){
+        var classElementArray = document.getElementsByClassName(className);
+        var noElementFound = false;
+        for (let element of classElementArray) {
+            noElementFound = true;
+            element.style.display = this.getShowMethod(action);
+        };
+        if(!noElementFound){
+            console.log('No elements found with class : '+ className);
+        }
+    }
+
+    showById(elementId, action) {
+        var elementToHide = document.getElementById(elementId);
+        if(elementToHide){
+            elementToHide.style.display = this.getShowMethod(action);
+        }else{
+            console.log('No elements found with ID : '+elementId);
+        }
+    }
+
+    getShowMethod(action){
+        return action.replace('show', '').toLowerCase();
     }
 
     urlHasParams() {
@@ -59,12 +84,25 @@ class DomControl {
                 if (params.action.toUpperCase() === 'HIDE') {
                     if(typeof(params.target) == "string"){
                         this.hideByClass(params.target);
-                        this.hydeById(params.target);
+                        this.hideById(params.target);
                     }
                     else if(this.isStrArray(params.target)){
                         params.target.forEach(param => {
                             this.hideByClass(param);
-                            this.hydeById(param);
+                            this.hideById(param);
+                        });
+                    }else{
+                        console.log('Error on target param type')
+                    }
+                }else{
+                    if(typeof(params.target) == "string"){
+                        this.showByClass(params.target, params.action);
+                        this.showById(params.target, params.action);
+                    }
+                    else if(this.isStrArray(params.target)){
+                        params.target.forEach(param => {
+                            this.showByClass(param, params.action);
+                            this.showById(param, params.action);
                         });
                     }else{
                         console.log('Error on target param type')
