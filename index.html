@@ -38,10 +38,70 @@
         <div class="row" id="french">
             <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 1 WITH ID "french"</div>
         </div>
+        <div class="row french" style="display: none;">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 2 WITH CLASS "french"</div>
+        </div>
+        <div class="row" style="display: none;" id="french">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 2 WITH ID "french"</div>
+        </div>
+        <div class="row chinese">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 3 WITH CLASS "chinese"</div>
+        </div>
+        <div class="row" id="chinese">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 3 WITH ID "chinese"</div>
+        </div>
+        <div class="row subscription-form">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 4 WITH CLASS "subscription-form"</div>
+        </div>
+        <div class="row" id="subscription-form">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 4 WITH ID "subscription-form"</div>
+        </div>
+        <div class="row promotion-block">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 5 WITH CLASS "promotion-block"</div>
+        </div>
+        <div class="row" id="promotion-block">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 5 WITH ID "promotion-block"</div>
+        </div>
         <div class="row">
             <div class="col-6 mx-auto text-center alert alert-info" id='example1'>
-                <a href="index.html?language=french">Example 1 - Same page without Block 1, hidden by JS with urlControl
-                    method, at the URL index.html?language=fr</a>
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example1')">Example 1</button>
+                - Same page without Block 1, Block 3, hidden by JS with urlControl
+                method, at the URL index.html?language=french
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example2')">Example 2
+                </button> - Same page with Block 2, show by JS with urlControl
+                method, at the URL index.html?language=french
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="document.cookie = 'subscription status=subscribed;'">Add cookie
+                    subscription status=John Doe</button>
+            </div>
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="alert(document.cookie)">Show all cookies</button>
+            </div>
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary"
+                    onclick="document.cookie = 'subscription status=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'">Delete
+                    cookie</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="hideWithCookie()">Exemple 3</button> Hide block 4 by JS if
+                cookie "subscription status" exist with value "subscribed"
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="hideWithDate('2021-03-18')">Hide Block 5 with dateControl()</button>
+            </div>
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="showWithDate('2021-03-18')">Show Block 5 with dateControl()</button>
             </div>
         </div>
     </div>
@@ -60,17 +120,57 @@
     <script src="js/dom-control.js"></script>
     <script src="js/dom-handling.js"></script>
     <script>
+        function goTo(href) {
+            window.location.replace(href);
+        }
+
+        function hideWithCookie() {
+            domControl.cookieControl({
+                cookieParam: 'subscription status',
+                paramValue: 'subscribed',
+                action: 'Hide',
+                target: 'subscription-form'
+            });
+        }
+
+        function hideWithDate(date) {
+            domControl.dateControl({
+                dateParam: 'date',
+                paramValue: date,
+                action: 'hide',
+                target: 'promotion-block'
+            });
+        }
+
+        function showWithDate(date) {
+            domControl.dateControl({
+                dateParam: 'date',
+                paramValue: date,
+                action: 'showBlock',
+                target: 'promotion-block'
+            });
+        }
         var domControl = new DomControl();
         var domHandling = new DomHandling();
-        if (domControl.urlHasParams()) {
-            domHandling.addIndexLink();
-            domHandling.removeExampleLink(1);
+        if (domControl.urlHasParam('example1')) {
             domControl.urlControl({
                 urlParam: 'language',
                 paramValue: 'french',
                 action: 'hide',
                 target: ['french', 'salut']
             });
+        } else if (domControl.urlHasParam('example2')) {
+            domControl.urlControl({
+                urlParam: 'language',
+                paramValue: 'french',
+                action: 'showGrid',
+                target: ['french']
+            });
+        }
+        if (domControl.urlHasParams()) {
+            domHandling.addIndexLink();
+            domHandling.removeExampleLink(1);
+            domHandling.removeExampleLink(2);
         }
     </script>
 </body>
