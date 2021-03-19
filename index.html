@@ -56,33 +56,52 @@
         <div class="row" id="subscription-form">
             <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 4 WITH ID "subscription-form"</div>
         </div>
+        <div class="row promotion-block">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 5 WITH CLASS "promotion-block"</div>
+        </div>
+        <div class="row" id="promotion-block">
+            <div class="col-6 alert alert-warning mx-auto text-center">BLOCK 5 WITH ID "promotion-block"</div>
+        </div>
         <div class="row">
             <div class="col-6 mx-auto text-center alert alert-info" id='example1'>
-                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example1')">Example 1</button> - Same page without Block 1, Block 3, hidden by JS with urlControl
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example1')">Example 1</button>
+                - Same page without Block 1, Block 3, hidden by JS with urlControl
                 method, at the URL index.html?language=french
             </div>
         </div>
         <div class="row">
             <div class="col-6 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example2')">Example 2 </button> - Same page with Block 2, show by JS with urlControl
+                <button class="btn btn-primary" onclick="goTo('index.html?language=french&example2')">Example 2
+                </button> - Same page with Block 2, show by JS with urlControl
                 method, at the URL index.html?language=french
             </div>
         </div>
         <div class="row">
             <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" onclick="document.cookie = 'subscription status=subscribed;'">Add cookie subscription status=John Doe</button>
+                <button class="btn btn-primary" onclick="document.cookie = 'subscription status=subscribed;'">Add cookie
+                    subscription status=John Doe</button>
             </div>
             <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
                 <button class="btn btn-primary" onclick="alert(document.cookie)">Show all cookies</button>
             </div>
             <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" 
-                onclick="document.cookie = 'subscription status=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'">Delete cookie</button>
+                <button class="btn btn-primary"
+                    onclick="document.cookie = 'subscription status=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'">Delete
+                    cookie</button>
             </div>
         </div>
         <div class="row">
             <div class="col-6 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" onclick="hideWithCookie()">Exemple 3</button> Hide block 4 by JS if cookie "subscription status" exist with value "subscribed"
+                <button class="btn btn-primary" onclick="hideWithCookie()">Exemple 3</button> Hide block 4 by JS if
+                cookie "subscription status" exist with value "subscribed"
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="hideWithDate([['2021-03-18', '2021-03-20'], ['2021-04-18', '2021-05-20']])">Hide Block 5 with dateControl() and today date</button>
+            </div>
+            <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
+                <button class="btn btn-primary" onclick="showWithDate([['2021-03-18', '2021-03-20'], ['2021-04-18', '2021-05-20']])">Show Block 5 with dateControl() and today date</button>
             </div>
         </div>
     </div>
@@ -101,10 +120,11 @@
     <script src="js/dom-control.js"></script>
     <script src="js/dom-handling.js"></script>
     <script>
-        function goTo(href){
+        function goTo(href) {
             window.location.replace(href);
         }
-        function hideWithCookie(){
+
+        function hideWithCookie() {
             domControl.cookieControl({
                 cookieParam: 'subscription status',
                 paramValue: 'subscribed',
@@ -112,16 +132,34 @@
                 target: 'subscription-form'
             });
         }
+
+        function hideWithDate(date) {
+            domControl.dateControl({
+                dateParam: 'multiple period',
+                paramValue: date,
+                action: 'hide',
+                target: 'promotion-block'
+            });
+        }
+
+        function showWithDate(date) {
+            domControl.dateControl({
+                dateParam: 'multiple period',
+                paramValue: date,
+                action: 'showBlock',
+                target: 'promotion-block'
+            });
+        }
         var domControl = new DomControl();
         var domHandling = new DomHandling();
-        if(domControl.urlHasParam('example1')){
+        if (domControl.urlHasParam('example1')) {
             domControl.urlControl({
                 urlParam: 'language',
                 paramValue: 'french',
                 action: 'hide',
                 target: ['english', 'chinese']
             });
-        }else if(domControl.urlHasParam('example2')){
+        } else if (domControl.urlHasParam('example2')) {
             domControl.urlControl({
                 urlParam: 'language',
                 paramValue: 'french',
@@ -132,7 +170,7 @@
         if (domControl.urlHasParams()) {
             domHandling.addIndexLink();
             domHandling.removeExampleLink(1);
-            domHandling.removeExampleLink(2);    
+            domHandling.removeExampleLink(2);
         }
     </script>
 </body>
