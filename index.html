@@ -98,10 +98,10 @@
         </div>
         <div class="row">
             <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" onclick="hideWithDate('2021-03-18')">Hide Block 5 with dateControl()</button>
+                <button class="btn btn-primary" onclick="hideWithDate([['2021-03-18', '2021-03-20'], ['2021-04-18', '2021-05-20']])">Hide Block 5 with dateControl() and today date</button>
             </div>
             <div class="col-3 mx-auto text-center alert alert-info" id='example2'>
-                <button class="btn btn-primary" onclick="showWithDate('2021-03-18')">Show Block 5 with dateControl()</button>
+                <button class="btn btn-primary" onclick="showWithDate([['2021-03-18', '2021-03-20'], ['2021-04-18', '2021-05-20']])">Show Block 5 with dateControl() and today date</button>
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@
 
         function hideWithDate(date) {
             domControl.dateControl({
-                dateParam: 'date',
+                dateParam: 'multiple period',
                 paramValue: date,
                 action: 'hide',
                 target: 'promotion-block'
@@ -144,7 +144,7 @@
 
         function showWithDate(date) {
             domControl.dateControl({
-                dateParam: 'date',
+                dateParam: 'multiple period',
                 paramValue: date,
                 action: 'showBlock',
                 target: 'promotion-block'

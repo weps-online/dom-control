@@ -16,42 +16,42 @@ class DomControl {
             noElementFound = true;
             element.style.display = 'none';
         };
-        if(!noElementFound){
-            console.log('No elements found with class : '+className);
+        if (!noElementFound) {
+            console.log('No elements found with class : ' + className);
         }
     }
 
     hideById(elementId) {
         var elementToHide = document.getElementById(elementId);
-        if(elementToHide){
+        if (elementToHide) {
             elementToHide.style.display = 'none';
-        }else{
-            console.log('No elements found with ID : '+elementId);
+        } else {
+            console.log('No elements found with ID : ' + elementId);
         }
     }
 
-    showByClass(className, action){
+    showByClass(className, action) {
         var classElementArray = document.getElementsByClassName(className);
         var noElementFound = false;
         for (let element of classElementArray) {
             noElementFound = true;
             element.style.display = this.getShowMethod(action);
         };
-        if(!noElementFound){
-            console.log('No elements found with class : '+ className);
+        if (!noElementFound) {
+            console.log('No elements found with class : ' + className);
         }
     }
 
     showById(elementId, action) {
         var elementToHide = document.getElementById(elementId);
-        if(elementToHide){
+        if (elementToHide) {
             elementToHide.style.display = this.getShowMethod(action);
-        }else{
-            console.log('No elements found with ID : '+elementId);
+        } else {
+            console.log('No elements found with ID : ' + elementId);
         }
     }
 
-    getShowMethod(action){
+    getShowMethod(action) {
         return action.replace('show', '').toLowerCase();
     }
 
@@ -62,7 +62,7 @@ class DomControl {
         return false;
     }
 
-    urlHasParam(paramName){
+    urlHasParam(paramName) {
         return this.urlParams.has(paramName);
     }
 
@@ -73,136 +73,150 @@ class DomControl {
     isString(val) {
         return (typeof val === "string");
     }
-      
+
     isStrArray(val) {
         return Array.isArray(val) && val.every(this.isString);
-    }      
+    }
 
     urlControl(params) {
         if (this.checkParamsIndex(params)) {
-            if(this.urlHasParam(params.urlParam) && this.urlParams.get(params.urlParam) === params.paramValue){
+            if (this.urlHasParam(params.urlParam) && this.urlParams.get(params.urlParam) === params.paramValue) {
                 if (params.action.toUpperCase() === 'HIDE') {
-                    if(typeof(params.target) == "string"){
+                    if (typeof (params.target) == "string") {
                         this.hideByClass(params.target);
                         this.hideById(params.target);
-                    }
-                    else if(this.isStrArray(params.target)){
+                    } else if (this.isStrArray(params.target)) {
                         params.target.forEach(param => {
                             this.hideByClass(param);
                             this.hideById(param);
                         });
-                    }else{
+                    } else {
                         console.log('Error on target param type')
                     }
-                }else{
-                    if(typeof(params.target) == "string"){
+                } else {
+                    if (typeof (params.target) == "string") {
                         this.showByClass(params.target, params.action);
                         this.showById(params.target, params.action);
-                    }
-                    else if(this.isStrArray(params.target)){
+                    } else if (this.isStrArray(params.target)) {
                         params.target.forEach(param => {
                             this.showByClass(param, params.action);
                             this.showById(param, params.action);
                         });
-                    }else{
+                    } else {
                         console.log('Error on target param type')
                     }
                 }
-            }else{
+            } else {
                 console.log('Param name not found in URL');
             }
 
         }
     }
 
-    getCookieKey(params){
-        const regex = new RegExp('(.*)' + params.cookieParam + '(=+)','g');
-        return document.cookie.match(regex); 
+    getCookieKey(params) {
+        const regex = new RegExp('(.*)' + params.cookieParam + '(=+)', 'g');
+        return document.cookie.match(regex);
     }
 
-    getCookieValueByKey(params){
-        // const regex = new RegExp('(?!;+)(?:' + params.cookieParam + '=)(.*)');
-        const regex = new RegExp('(?:'+params.cookieParam +')=(.*)(;*)');
+    getCookieValueByKey(params) {
+        const regex = new RegExp('(?:' + params.cookieParam + ')=(.*)(;*)');
         return document.cookie.match(regex)[1].split(';')[0];
     }
 
-    cookieControl(params){
+    isTodayDateInInterval(interval) {
+        var today = new Date().getTime();
+        var from = new Date(interval[0]).getTime();
+        var to = new Date(interval[1]).getTime();
+        if (today >= from && today <= to) {
+            return true
+        }
+        return false;
+    }
+
+    cookieControl(params) {
         if (this.checkParamsIndex(params)) {
-            if(this.getCookieKey(params) && this.getCookieValueByKey(params) === params.paramValue){
+            if (this.getCookieKey(params) && this.getCookieValueByKey(params) === params.paramValue) {
                 if (params.action.toUpperCase() === 'HIDE') {
-                    if(typeof(params.target) == "string"){
+                    if (typeof (params.target) == "string") {
                         this.hideByClass(params.target);
                         this.hideById(params.target);
-                    }
-                    else if(this.isStrArray(params.target)){
+                    } else if (this.isStrArray(params.target)) {
                         params.target.forEach(param => {
                             this.hideByClass(param);
                             this.hideById(param);
                         });
-                    }else{
+                    } else {
                         console.log('Error on target param type')
                     }
-                }else{
-                    if(typeof(params.target) == "string"){
+                } else {
+                    if (typeof (params.target) == "string") {
                         this.showByClass(params.target, params.action);
                         this.showById(params.target, params.action);
-                    }
-                    else if(this.isStrArray(params.target)){
+                    } else if (this.isStrArray(params.target)) {
                         params.target.forEach(param => {
                             this.showByClass(param, params.action);
                             this.showById(param, params.action);
                         });
-                    }else{
+                    } else {
                         console.log('Error on target param type')
                     }
                 }
-            }else{
+            } else {
                 console.log('Cookie Key "' + params.cookieParam + '" doesn\'t exist !');
             }
         }
     }
 
-    dateControl(params){
+    domAction(action, target) {
+        if (action.toUpperCase() === 'HIDE') {
+            if (typeof (target) == "string") {
+                this.hideByClass(target);
+                this.hideById(target);
+            } else if (this.isStrArray(target)) {
+                target.forEach(param => {
+                    this.hideByClass(param);
+                    this.hideById(param);
+                });
+            } else {
+                console.log('Error on target param type')
+            }
+        } else {
+            if (typeof (target) == "string") {
+                this.showByClass(target, action);
+                this.showById(target, action);
+            } else if (this.isStrArray(target)) {
+                target.forEach(param => {
+                    this.showByClass(param, action);
+                    this.showById(param, action);
+                });
+            } else {
+                console.log('Error on target param type')
+            }
+        }
+
+    }
+
+    dateControl(params) {
         if (this.checkParamsIndex(params)) {
             switch (params.dateParam) {
                 case 'date':
-                    if(new Date().toISOString().slice(0, 10) == params.paramValue){
-                        if (params.action.toUpperCase() === 'HIDE') {
-                            if(typeof(params.target) == "string"){
-                                this.hideByClass(params.target);
-                                this.hideById(params.target);
-                            }
-                            else if(this.isStrArray(params.target)){
-                                params.target.forEach(param => {
-                                    this.hideByClass(param);
-                                    this.hideById(param);
-                                });
-                            }else{
-                                console.log('Error on target param type')
-                            }
-                        }else{
-                            if(typeof(params.target) == "string"){
-                                this.showByClass(params.target, params.action);
-                                this.showById(params.target, params.action);
-                            }
-                            else if(this.isStrArray(params.target)){
-                                params.target.forEach(param => {
-                                    this.showByClass(param, params.action);
-                                    this.showById(param, params.action);
-                                });
-                            }else{
-                                console.log('Error on target param type')
-                            }
-                        }
+                    if (new Date().toISOString().slice(0, 10) == params.paramValue) {
+                        this.domAction(params.action, params.target);
                     }
                     break;
                 case 'single period':
-                    
+                    if(this.isTodayDateInInterval(params.paramValue)){
+                        this.domAction(params.action, params.target);
+                    }
                     break;
                 case 'multiple period':
-                    
+                    params.paramValue.forEach(interval => {
+                        if(this.isTodayDateInInterval(interval)){
+                            this.domAction(params.action, params.target);
+                            return true;
+                        }
+                    });
                     break;
-            
                 default:
                     break;
             }
